@@ -34,6 +34,8 @@ export class CaptivePortalDetection {
             `http://${config.detectUri}`,
             {
                 method: "GET",
+                bodyTimeout: 0,
+                headersTimeout: 0,
                 maxRedirections: 0 // Disallow redirects
             }
         );
