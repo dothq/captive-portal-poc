@@ -87,14 +87,18 @@ export class CaptivePortalDetection {
             requestedFurtherInvestigation: false
         };
 
-        const [records]: any = await resolveTxt(CAPTIVE_PORTAL_PING_URI);
+        let records: any[] = [];
+
+        try {
+            records = (await resolveTxt(CAPTIVE_PORTAL_PING_URI) as any)[0];
+        } catch(e) {}
 
         result.records = records;
 
-        if(!records) {
+        if(!records || !records.length) {
             result.wasRecord = false;
             result = { ...result, ...(await this.pingCaptiveDetect(result)) };
-            return;
+            return result;
         } else {
             result.wasRecord = true;
         }
